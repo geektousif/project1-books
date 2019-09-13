@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Books-{{title}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container text-center">
+      <div class="bg-dark" style="color:white">
+    <h1>Welcome to Book Review Platform</h1>
+    <form action="{{url_for('index')}}">
+      <button class="float-left btn-light" type="submit" name="button">Home</button>
+    </form>
+    <form action="{{url_for('logout')}}">
+      <button class="float-right btn-warning" name="button">Logout</button>
+    </form>
+      <h3>Welcome {{name}}</h3>
+    </div>
+      <h1>Book Details:</h1>
+    <p>
+    <strong>ISBN:</strong> {{ book.isbn }}<br>
+    <strong>Title:</strong> {{ book.title }}<br>
+    <strong>Author:</strong> {{ book.author }}<br>
+    <strong>Year:</strong> {{ book.year }}<br>
+    {% if avg_rating and ratings_count is not none %}
+      <strong>Ratings:</strong> {{avg_rating}}/5 from {{ratings_count}} on GoodReads.<br>
+    {% else %}
+      No GoodReads Ratings available.
+    {% endif %}
+    </p>
+
+
+    <br>
+      <h4>Submit Your Review</h4>
+    <form class='form-group ' action="{{url_for('book_details', id = book.id)}}" method="POST">
+        <label class='text-danger'>Write your review...</label>
+        <select name="stars" class='m-1' required>
+            <option selected value disabled> -- select rating -- </option>
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+        </select>
+        <textarea class='form-control' name='review'>
+        </textarea>
+        <input class='my-2' type='submit' value='Send review'>
+    </form>
+    <h5>Reviews:</h5>
+          {% if reviews != None %}
+          {% for x in reviews %}
+          <div class='container bg-light my-3 '>
+            <h6>Rating: {{x.rating}} of 5</h6>
+            <blockquote class="blockquote">
+            <p>{{x.review}}</p>
+            <footer class="blockquote-footer">{{name}}</footer>
+            </blockquote>
+          </div>
+        {% endfor %}
+          {% endif %}
+        <div class='bg-light text-center '><a href='/api/{{book.isbn}}'>API</a></div>
+      </div>
+    </body>
+    </html>

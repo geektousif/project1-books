@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+<div class="text-center">
+
+  {% with messages = get_flashed_messages() %}
+       {% if messages %}
+          <ul>
+             {% for message in messages %}
+             <li>{{ message }}</li>
+             {% endfor %}
+          </ul>
+       {% endif %}
+    {% endwith %}
+
+{% set active_page = "home" %}
+
+{% block body %}
+
+
+{% endblock %}
+</div>
